@@ -1,1 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>October 10th</title>
+  <meta property="og:title" content="October 10th Countdown">
+  <meta property="og:description" content="The countdown to October 10th, 2026 at 8 PM.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg: #0c0a08;
+      --bg-card: rgba(255,255,255,0.025);
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e0d4;
+      --text-dim: #8a7e6e;
+      --gold: #c9a84c;
+      --gold-glow: rgba(201,168,76,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Geist', -apple-system, sans-serif; font-weight: 400;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    .leaves { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .leaf { position: absolute; top: -40px; opacity: 0; animation: drift linear infinite; }
+    @keyframes drift {
+      0%   { transform: translateX(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translateX(40px) rotate(300deg) translateY(105vh); opacity: 0; }
+    }
+
+    .wrap { position: relative; z-index: 1; }
+
+    /* ---- hero ---- */
+    .hero {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 48px 24px; text-align: center; gap: 40px;
+    }
+
+    .rc-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700; font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.35);
+      padding: 10px 28px;
+      border-radius: 4px;
+    }
+
+    .title {
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .title-ten {
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: clamp(7rem, 20vw, 16rem); line-height: 0.85;
+      color: var(--gold);
+      text-shadow: 0 0 80px var(--gold-glow), 0 0 120px rgba(201,168,76,0.08);
+      display: block;
+    }
+    .title-rest {
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1;
+      color: var(--text-dim);
+      display: block; margin-top: -4px;
+    }
+
+    /* ---- countdown ---- */
+    .countdown {
+      display: flex; gap: 2px; justify-content: center;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .cd-unit {
+      display: flex; flex-direction: column; align-items: center;
+      padding: clamp(18px, 3vw, 32px) clamp(20px, 4.5vw, 48px);
+      position: relative;
+    }
+    .cd-unit + .cd-unit::before {
+      content: ''; position: absolute; left: 0; top: 20%; height: 60%;
+      width: 1px; background: var(--border);
+    }
+    .cd-num {
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1;
+      color: var(--gold);
+      text-shadow: 0 0 50px var(--gold-glow);
+    }
+    .cd-lbl {
+      font-size: 0.7rem; font-weight: 600; color: var(--text-dim);
+      letter-spacing: 0.18em; text-transform: uppercase; margin-top: 8px;
+    }
+
+    /* ---- unity ---- */
+    .unity-statement {
+      max-width: 500px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+    .unity-statement strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1.25em;
+      letter-spacing: 0.06em;
+    }
+
+    /* ---- quiz CTA ---- */
+    .quiz-btn {
+      display: inline-block; padding: 18px 52px;
+      background: var(--gold);
+      border: none;
+      color: var(--bg); font-family: 'Geist', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      text-decoration: none; border-radius: 5px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: background 0.25s, transform 0.15s;
+    }
+    .quiz-btn:hover {
+      background: #d4b55a; transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.1em; transition: color 0.2s;
+    }
+    .scroll-hint:hover { color: var(--text); }
+
+    /* ---- below fold ---- */
+    .section {
+      width: 100%; max-width: 680px; margin: 0 auto;
+      padding: 72px 24px;
+    }
+
+    .section-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold);
+      text-align: center; margin-bottom: 36px;
+    }
+
+    .rule {
+      width: 40px; height: 1px; background: var(--gold);
+      opacity: 0.3; border: none; margin: 0 auto 44px;
+    }
+
+    /* ---- names ---- */
+    .names {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .names span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---- schools ---- */
+    .schools {
+      display: flex; justify-content: center; align-items: center;
+      gap: clamp(28px, 6vw, 56px); flex-wrap: wrap;
+    }
+    .school {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .school:hover { color: var(--text); }
+
+    /* ---- footer ---- */
+    footer {
+      text-align: center; padding: 48px 24px 64px;
+      border-top: 1px solid var(--border);
+      max-width: 680px; margin: 0 auto;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--gold); letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .footer-sub {
+      font-size: 0.7rem; color: var(--text-dim); opacity: 0.5;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .cd-unit { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="leaves" id="leaves"></div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="rc-brand">Results Committee</div>
+
+      <h1>
+        <span class="title">October</span>
+        <span class="title-ten">10</span>
+        <span class="title-rest">th, 2026</span>
+      </h1>
+
+      <div class="countdown" id="countdown">
+        <div class="cd-unit">
+          <div class="cd-num" id="days">00</div>
+          <div class="cd-lbl">Days</div>
+        </div>
+        <div class="cd-unit">
+          <div class="cd-num" id="hours">00</div>
+          <div class="cd-lbl">Hours</div>
+        </div>
+        <div class="cd-unit">
+          <div class="cd-num" id="minutes">00</div>
+          <div class="cd-lbl">Minutes</div>
+        </div>
+        <div class="cd-unit">
+          <div class="cd-num" id="seconds">00</div>
+          <div class="cd-lbl">Seconds</div>
+        </div>
+      </div>
+
+      <p class="unity-statement">
+        A once-in-a-year level of <strong>unity</strong>.
+      </p>
+
+      <a href="quiz.html" class="quiz-btn">Take the October 2026 Quiz</a>
+
+      <a href="#details" class="scroll-hint">&#9662;</a>
+    </section>
+
+    <section class="section" id="details">
+      <p class="section-label">Wii Sports</p>
+      <hr class="rule">
+      <div class="names">
+        <span>Amit</span>
+        <span>Ben</span>
+        <span>Daniel</span>
+        <span>Eitan</span>
+        <span>Glazer</span>
+        <span>Isaac</span>
+        <span>Jonah</span>
+        <span>Josh</span>
+        <span>Justin</span>
+        <span>Seth</span>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+      <p class="section-label">Representing</p>
+      <hr class="rule">
+      <div class="schools">
+        <span class="school">Laurier</span>
+        <span class="school">Miami</span>
+        <span class="school">Queen's</span>
+        <span class="school">Western</span>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">Results Committee</div>
+      <div class="footer-sub">october10th.xyz</div>
+    </footer>
+  </div>
+
+  <script>
+    const target = new Date('2026-10-10T20:00:00-04:00').getTime();
+    function tick() {
+      const d = Math.max(0, target - Date.now());
+      document.getElementById('days').textContent    = String(Math.floor(d / 864e5)).padStart(2,'0');
+      document.getElementById('hours').textContent   = String(Math.floor((d % 864e5) / 36e5)).padStart(2,'0');
+      document.getElementById('minutes').textContent = String(Math.floor((d % 36e5) / 6e4)).padStart(2,'0');
+      document.getElementById('seconds').textContent = String(Math.floor((d % 6e4) / 1e3)).padStart(2,'0');
+    }
+    tick(); setInterval(tick, 1000);
+
+    const colors = ['#6b2020','#b87333','#c9a84c','#4a2c12','#8b5e3c'];
+    function makeLeaf() {
+      const l = document.createElement('div'); l.className = 'leaf';
+      const c = colors[Math.random()*colors.length|0];
+      l.innerHTML = `<svg viewBox="0 0 24 24" width="${14+Math.random()*10}" height="${14+Math.random()*10}"><path d="M12 2C12 2 4 8 4 15c0 4 3 7 8 7s8-3 8-7C20 8 12 2 12 2z" fill="${c}" opacity="0.6"/></svg>`;
+      l.style.left = Math.random()*100+'vw';
+      l.style.animationDuration = (12+Math.random()*12)+'s';
+      l.style.animationDelay = Math.random()*4+'s';
+      document.getElementById('leaves').appendChild(l);
+      setTimeout(()=>l.remove(), 28000);
+    }
+    setInterval(makeLeaf, 2200);
+    for(let i=0;i<6;i++) setTimeout(makeLeaf, i*500);
+  </script>
+</body>
+</html>
