@@ -78,6 +78,24 @@
       display: block; margin-top: -4px;
     }
 
+    /* ---- slogan ---- */
+    .slogan {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+      max-width: 600px;
+    }
+    .slogan-ten {
+      font-size: 2.4em;
+      line-height: 0;
+      vertical-align: baseline;
+      position: relative;
+      top: 0.08em;
+    }
+
     /* ---- countdown ---- */
     .countdown {
       display: flex; gap: 2px; justify-content: center;
@@ -138,10 +156,12 @@
     }
 
     .scroll-hint {
-      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
-      letter-spacing: 0.1em; transition: color 0.2s;
+      color: var(--gold); font-size: 1rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.12em;
+      text-transform: uppercase; transition: opacity 0.2s;
+      opacity: 0.7;
     }
-    .scroll-hint:hover { color: var(--text); }
+    .scroll-hint:hover { opacity: 1; }
 
     /* ---- below fold ---- */
     .section {
@@ -210,10 +230,11 @@
 </head>
 <body>
 
+  <div class="leaves" id="leaves"></div>
 
   <div class="wrap">
     <section class="hero">
-      <div class="rc-brand">Results Committee</div>
+      <p class="slogan"><span class="slogan-ten">10</span>th Day. <span class="slogan-ten">10</span>th Month. All <span class="slogan-ten">10</span> Members of Wii Sports.</p>
 
       <h1>
         <span class="title">October</span>
@@ -246,7 +267,7 @@
 
       <a href="quiz/" class="quiz-btn">Take the October 2026 Quiz</a>
 
-      <a href="#details" class="scroll-hint">&#9662;</a>
+      <a href="#details" class="scroll-hint">Scroll for more details &#9662;</a>
     </section>
 
     <section class="section" id="details">
