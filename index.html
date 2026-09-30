@@ -15,7 +15,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,500;1,600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -128,6 +128,87 @@
       min-height: 100vh; padding: 110px 24px 28px; text-align: center; gap: 24px;
     }
 
+    /* ---- order of the evening ---- */
+    .program {
+      width: 100%; max-width: 660px;
+      margin-bottom: 20px;
+      padding: clamp(28px, 5vw, 46px) clamp(20px, 5vw, 50px) clamp(24px, 4vw, 38px);
+      background: rgba(12,10,8,0.9);
+      border: 1px solid rgba(201,168,76,0.5);
+      outline: 1px solid rgba(201,168,76,0.2);
+      outline-offset: 7px;
+      backdrop-filter: blur(4px);
+    }
+    .program-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 500;
+      font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;
+      color: var(--gold);
+      text-shadow: 0 0 60px var(--gold-glow);
+    }
+    .program-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.2vw, 1.2rem); font-weight: 600;
+      color: var(--text-dim); letter-spacing: 0.06em;
+      margin-top: 8px;
+    }
+    .ornament {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin: 20px auto 10px; max-width: 220px;
+    }
+    .ornament::before, .ornament::after {
+      content: ''; flex: 1; height: 1px; background: var(--gold); opacity: 0.45;
+    }
+    .ornament span {
+      width: 7px; height: 7px; background: var(--gold);
+      transform: rotate(45deg); opacity: 0.8;
+    }
+
+    .program-list { list-style: none; text-align: left; }
+    .program-list li {
+      display: flex; align-items: baseline; gap: 14px;
+      padding: clamp(14px, 2.4vw, 20px) 0;
+    }
+    .program-list li + li { border-top: 1px solid rgba(201,168,76,0.14); }
+    .p-num {
+      flex: 0 0 2.4em;
+      font-family: 'Cormorant Garamond', serif; font-weight: 600;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gold); text-align: right;
+    }
+    .p-event { flex: 0 1 auto; }
+    .p-name {
+      display: block;
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: clamp(1.35rem, 3.2vw, 1.95rem); line-height: 1.2;
+      color: var(--text);
+    }
+    .p-note {
+      display: block;
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      color: var(--text-dim); margin-top: 2px;
+    }
+    .p-lead {
+      flex: 1 1 24px; min-width: 24px;
+      border-bottom: 1px dotted rgba(201,168,76,0.4);
+      transform: translateY(-0.35em);
+    }
+    .p-time {
+      flex: 0 0 auto; white-space: nowrap;
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600;
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      color: var(--gold);
+    }
+
+    @media (max-width: 560px) {
+      .program-list li { flex-wrap: wrap; row-gap: 4px; }
+      .p-num { flex-basis: 1.8em; }
+      .p-event { flex: 1 1 calc(100% - 1.8em - 14px); }
+      .p-lead { display: none; }
+      .p-time { margin-left: calc(1.8em + 14px); }
+    }
+
     /* ---- slogan ---- */
     .slogan {
       font-family: 'Cormorant Garamond', serif;
@@ -155,7 +236,7 @@
     .title-line {
       display: flex; align-items: baseline; justify-content: center;
       gap: 0.22em; white-space: nowrap;
-      font-size: clamp(3.2rem, 12vw, 7.5rem);
+      font-size: clamp(2.8rem, 10vw, 6rem);
     }
     .title {
       font-family: 'Cormorant Garamond', serif; font-weight: 700;
@@ -332,6 +413,42 @@
       <div class="hero-deco stalk right" id="stalkR"></div>
       <div class="hero-deco pile left" id="pileL"></div>
       <div class="hero-deco pile right" id="pileR"></div>
+
+      <div class="program" role="region" aria-labelledby="program-title">
+        <h2 class="program-title" id="program-title">Order of the Evening</h2>
+        <p class="program-date">Saturday, the Tenth of October</p>
+        <div class="ornament" aria-hidden="true"><span></span></div>
+        <ol class="program-list">
+          <li>
+            <span class="p-num">I.</span>
+            <span class="p-event"><span class="p-name">Dinner</span></span>
+            <span class="p-lead" aria-hidden="true"></span>
+            <span class="p-time">7:30 – 9:00 PM</span>
+          </li>
+          <li>
+            <span class="p-num">II.</span>
+            <span class="p-event"><span class="p-name">Results Committee Speeches</span></span>
+            <span class="p-lead" aria-hidden="true"></span>
+            <span class="p-time">9:15 – 9:30 PM</span>
+          </li>
+          <li>
+            <span class="p-num">III.</span>
+            <span class="p-event"><span class="p-name">Quiz Results</span></span>
+            <span class="p-lead" aria-hidden="true"></span>
+            <span class="p-time">9:30 – 10:15 PM</span>
+          </li>
+          <li>
+            <span class="p-num">IV.</span>
+            <span class="p-event">
+              <span class="p-name">Post-Results Festivities</span>
+              <span class="p-note">Details to be announced</span>
+            </span>
+            <span class="p-lead" aria-hidden="true"></span>
+            <span class="p-time">10:15 PM – All Night</span>
+          </li>
+        </ol>
+      </div>
+
       <p class="slogan"><span class="slogan-ten">10</span>th Day.<br><span class="slogan-ten">10</span>th Month.<br>All <span class="slogan-ten">10</span> Members of Wii Sports.</p>
 
       <h1 class="title-block">
