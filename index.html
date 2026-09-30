@@ -298,6 +298,10 @@
       font-size: 0.7rem; color: var(--text-dim); opacity: 0.5;
       margin-top: 8px;
     }
+    .footer-logo {
+      display: block; margin: 32px auto 0;
+      width: clamp(90px, 18vw, 140px); height: auto;
+    }
 
     @media (max-width: 480px) {
       .cd-unit { padding: 12px 14px; }
@@ -395,6 +399,7 @@
     <footer>
       <div class="footer-brand">Results Committee</div>
       <div class="footer-sub">From the Second Saturday of May, We Shall Never Run Astray.</div>
+      <img src="RClogo.png" alt="Results Committee logo" class="footer-logo" onerror="this.style.display='none'">
     </footer>
   </div>
 
