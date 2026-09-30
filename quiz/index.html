@@ -41,27 +41,27 @@
     }
     @keyframes twinkle { from { opacity: 0.1; } to { opacity: 0.7; } }
 
-    .moon {
-      position: fixed; z-index: 0; pointer-events: none;
-      top: clamp(20px, 6vh, 60px); right: clamp(10px, 8vw, 120px);
-      width: clamp(110px, 18vw, 220px); aspect-ratio: 1; border-radius: 50%;
-      background: radial-gradient(circle at 38% 35%, #f2c46a, #d98a2b 60%, #a8581c);
-      box-shadow: 0 0 60px rgba(217,138,43,0.45), 0 0 160px rgba(217,138,43,0.25);
-      animation: moonpulse 6s ease-in-out infinite alternate;
+    /* ---- maple branch reaching in from the top-right corner ---- */
+    .branch {
+      position: fixed; top: 0; right: 0; z-index: 0; pointer-events: none;
+      width: clamp(240px, 36vw, 500px); aspect-ratio: 4 / 3;
+      transform-origin: 100% 10%; animation: branchsway 7s ease-in-out infinite alternate;
     }
-    .moon::after {
-      content: ''; position: absolute; inset: 0; border-radius: 50%;
-      background:
-        radial-gradient(circle at 62% 30%, rgba(120,60,20,0.35) 0 8%, transparent 9%),
-        radial-gradient(circle at 30% 64%, rgba(120,60,20,0.3) 0 10%, transparent 11%),
-        radial-gradient(circle at 70% 70%, rgba(120,60,20,0.25) 0 6%, transparent 7%);
+    .branch svg.wood { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .branch .bl { position: absolute; transform-origin: 50% 0; animation: sway ease-in-out infinite alternate; }
+    .branch .bl svg { display: block; width: 100%; height: auto; }
+    .branch .perch { position: absolute; width: 17%; }
+    .branch .perch svg { display: block; width: 100%; height: auto; transform: scaleX(-1); }
+    .branch .perch .head { transform-box: view-box; transform-origin: 39px 30px; animation: gobble 3.4s ease-in-out infinite; }
+    @keyframes gobble {
+      0%, 70%, 100% { transform: rotate(0deg); }
+      75% { transform: rotate(-14deg); } 80% { transform: rotate(8deg); }
+      85% { transform: rotate(-14deg); } 90% { transform: rotate(0deg); }
     }
-    @keyframes moonpulse {
-      from { box-shadow: 0 0 60px rgba(217,138,43,0.4), 0 0 140px rgba(217,138,43,0.2); }
-      to   { box-shadow: 0 0 80px rgba(217,138,43,0.55), 0 0 200px rgba(217,138,43,0.3); }
-    }
+    @keyframes branchsway { from { transform: rotate(-1.2deg); } to { transform: rotate(1.2deg); } }
+    @keyframes sway { from { transform: rotate(var(--r0)); } to { transform: rotate(var(--r1)); } }
 
-    /* flying turkey silhouettes crossing the moon */
+    /* flying turkey silhouettes */
     .flyer {
       position: fixed; z-index: 0; pointer-events: none; left: 0;
       animation: fly linear forwards; opacity: 0.8;
@@ -179,14 +179,14 @@
 
     @media (prefers-reduced-motion: reduce) {
       .leaves, .flyer { display: none; }
-      .star, .moon, .peck .head, .shock, .cluster .c { animation: none !important; }
+      .star, .branch, .branch .bl, .branch .perch .head, .peck .head, .shock, .cluster .c { animation: none !important; }
     }
   </style>
 </head>
 <body>
 
   <div class="sky" id="sky"></div>
-  <div class="moon"></div>
+  <div class="branch" id="branch"></div>
   <div class="leaves" id="leaves"></div>
   <div class="yard" id="yard"><div class="fence" id="fence"></div></div>
 
@@ -280,7 +280,7 @@
     setInterval(makeLeaf, 600);
     for (let i = 0; i < 18; i++) setTimeout(makeLeaf, i * 200);
 
-    /* ---------- flocks flying past the moon ---------- */
+    /* ---------- flocks flying overhead ---------- */
     function flock() {
       const n = 3 + (Math.random() * 4 | 0);
       const baseTop = rand(4, 22);
@@ -369,6 +369,63 @@
       });
     }
     buildCluster('clusterTL'); buildCluster('clusterBR');
+
+    /* ---------- maple branch ---------- */
+    const branch = document.getElementById('branch');
+    const bark = '#3a2616';
+    branch.innerHTML = `<svg class="wood" viewBox="0 0 400 300" preserveAspectRatio="none">
+      <g fill="none" stroke="${bark}" stroke-linecap="round">
+        <path d="M410 28C340 38 290 58 230 85" stroke-width="17"/>
+        <path d="M230 85C180 108 140 126 90 144" stroke-width="11"/>
+        <path d="M90 144C70 150 50 155 25 160" stroke-width="6"/>
+        <path d="M300 50C290 22 270 10 250 5" stroke-width="7"/>
+        <path d="M232 86C222 130 204 168 182 200" stroke-width="7"/>
+        <path d="M160 115C150 92 132 80 110 70" stroke-width="5"/>
+        <path d="M120 132C110 168 96 190 80 210" stroke-width="4"/>
+        <path d="M335 40C322 88 332 128 318 172" stroke-width="7"/>
+      </g></svg>`;
+    const clusterPts = [[250,5],[268,16],[182,200],[196,174],[110,70],[126,80],[80,210],[92,190],
+                        [25,160],[42,152],[318,172],[327,140],[205,98],[62,152],[352,34],[282,62],[150,122],[330,100]];
+    const branchLeaves = [];
+    clusterPts.forEach(([x, y]) => {
+      const n = 4 + (Math.random() * 3 | 0);
+      for (let i = 0; i < n; i++) {
+        const el = document.createElement('div'); el.className = 'bl';
+        const isAcorn = Math.random() < 0.15;
+        const w = isAcorn ? rand(2.4, 3.2) : rand(7, 12);
+        el.style.width = w + '%';
+        el.style.left = `calc(${(x + rand(-16, 16)) / 4}% - ${w / 2}%)`;
+        el.style.top = ((y + rand(-10, 14)) / 3) + '%';
+        const r = rand(-60, 60);
+        el.style.setProperty('--r0', (r - 10) + 'deg');
+        el.style.setProperty('--r1', (r + 10) + 'deg');
+        el.style.animationDuration = rand(1.4, 2.8) + 's';
+        el.style.animationDelay = -rand(0, 3) + 's';
+        el.innerHTML = isAcorn ? svg.acorn(30)
+                               : svg.maple(40, pick(['#a33b1c','#c46a1f','#c9a84c','#b87333','#6b2020']));
+        branch.appendChild(el);
+        branchLeaves.push(el);
+      }
+    });
+    const perch = document.createElement('div'); perch.className = 'perch';
+    perch.style.left = '40%'; perch.style.top = '15.5%';
+    perch.innerHTML = svg.turkey();
+    branch.appendChild(perch);
+
+    /* leaves letting go of the branch */
+    function dropFromBranch() {
+      const src = pick(branchLeaves).getBoundingClientRect();
+      const l = document.createElement('div'); l.className = 'leaf';
+      l.innerHTML = svg.maple(rand(18, 26), pick(colors));
+      l.style.left = src.left + 'px';
+      l.style.top = src.top + 'px';
+      const dur = rand(9, 14);
+      l.style.animationDuration = dur + 's';
+      l.style.setProperty('--sx', rand(30, 80) * (Math.random() < 0.5 ? -1 : 1) + 'px');
+      leaves.appendChild(l);
+      setTimeout(() => l.remove(), dur * 1000 + 500);
+    }
+    setInterval(dropFromBranch, 1400);
   </script>
 </body>
 </html>
