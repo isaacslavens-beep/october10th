@@ -143,25 +143,19 @@
       font-size: 1.1rem; font-weight: 500; line-height: 1.7; color: var(--text-dim);
     }
 
-    .date-badge {
+    .form-btn {
       font-family: 'Cormorant Garamond', serif; font-weight: 700;
-      font-size: 1.5rem; color: var(--gold);
-      border: 1px solid rgba(201,168,76,0.35);
-      border-radius: 4px; padding: 14px 36px;
+      font-size: 1.5rem; color: var(--bg); background: var(--gold);
+      text-decoration: none; border: 1px solid var(--gold);
+      border-radius: 4px; padding: 14px 40px;
+      box-shadow: 0 0 40px var(--gold-glow);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
     }
-
-    .mini-cd {
-      display: flex; gap: 24px; justify-content: center;
+    .form-btn:hover {
+      background: transparent; color: var(--gold);
+      box-shadow: 0 0 60px rgba(201,168,76,0.25);
     }
-    .mini-cd .u { display: flex; flex-direction: column; align-items: center; }
-    .mini-cd .n {
-      font-family: 'Cormorant Garamond', serif; font-weight: 700;
-      font-size: 2rem; color: var(--gold);
-    }
-    .mini-cd .l {
-      font-size: 0.6rem; font-weight: 600; color: var(--text-dim);
-      letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px;
-    }
+    .form-btn:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
 
     .back {
       color: var(--text-dim); text-decoration: none; font-size: 0.9rem;
@@ -198,29 +192,14 @@
       <p class="card-eyebrow">Results Committee</p>
       <h1 class="card-title">October 2026 Quiz</h1>
       <hr class="rule">
-      <p class="card-msg">The quiz will be available on October 1st, 2026.</p>
-      <div class="date-badge">October 1st</div>
+      <p class="card-msg">Due date: October 9, 2026, at 11:59 p.m. ET.</p>
+      <a href="https://forms.gle/XUWFszEHdKgRU6Rj7" class="form-btn" target="_blank" rel="noopener noreferrer">Quiz</a>
 
-      <div class="mini-cd">
-        <div class="u"><div class="n" id="q-d">00</div><div class="l">Days</div></div>
-        <div class="u"><div class="n" id="q-h">00</div><div class="l">Hours</div></div>
-        <div class="u"><div class="n" id="q-m">00</div><div class="l">Min</div></div>
-      </div>
-
-      <a href="../" class="back">&#8592; Back to countdown</a>
+      <a href="../" class="back">&#8592; Back</a>
     </div>
   </div>
 
   <script>
-    const qd = new Date('2026-10-01T00:00:00-04:00').getTime();
-    function qt(){
-      const d=Math.max(0,qd-Date.now());
-      document.getElementById('q-d').textContent=String(Math.floor(d/864e5)).padStart(2,'0');
-      document.getElementById('q-h').textContent=String(Math.floor((d%864e5)/36e5)).padStart(2,'0');
-      document.getElementById('q-m').textContent=String(Math.floor((d%36e5)/6e4)).padStart(2,'0');
-    }
-    qt(); setInterval(qt,60000);
-
     /* ---------- shapes ---------- */
     const rand = (a, b) => a + Math.random() * (b - a);
     const pick = arr => arr[Math.random() * arr.length | 0];
