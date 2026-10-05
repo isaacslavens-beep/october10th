@@ -397,9 +397,114 @@
       .leaves, .stroller { display: none; }
       .g-leaf, .stalk, .pile .wiggle { animation: none !important; }
     }
+
+    /* ---- quiz deadline banner ---- */
+    .qb {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 6px 18px; padding: 10px 16px;
+      background: linear-gradient(90deg, #2a0e0c 0%, #6b2020 50%, #2a0e0c 100%);
+      border-bottom: 1px solid rgba(201,168,76,0.55);
+      box-shadow: 0 6px 30px rgba(107,32,32,0.45);
+      overflow: hidden; text-align: center;
+    }
+    .qb[hidden] { display: none; }
+    .qb::after {
+      content: ''; position: absolute; top: 0; bottom: 0; left: -40%; width: 30%;
+      background: linear-gradient(100deg, transparent, rgba(232,200,120,0.18), transparent);
+      animation: qb-shine 4.5s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes qb-shine { 0%, 55% { left: -40%; } 100% { left: 120%; } }
+    .qb-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Geist', sans-serif; font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: #f3dfa6;
+    }
+    .qb-dot {
+      position: relative; width: 8px; height: 8px; border-radius: 50%; background: #ff5a36;
+      box-shadow: 0 0 8px #ff5a36;
+    }
+    .qb-dot::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #ff5a36;
+      animation: qb-ping 1.4s ease-out infinite;
+    }
+    @keyframes qb-ping { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2.8); opacity: 0; } }
+    .qb-when {
+      font-family: 'Cormorant Garamond', serif; font-weight: 700; font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.15rem); color: var(--text);
+    }
+    .qb-clock {
+      display: inline-flex; align-items: baseline; gap: 10px;
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      font-size: clamp(1.25rem, 3vw, 1.5rem); line-height: 1; color: var(--gold);
+      text-shadow: 0 0 18px rgba(201,168,76,0.45);
+    }
+    .qb-clock small {
+      font-family: 'Geist', sans-serif; font-size: 0.55em; font-weight: 600;
+      color: #e8c878; opacity: 0.8; margin-left: 1px;
+    }
+    .qb-clock .tick { animation: qb-tick 1s ease-out; display: inline-block; }
+    @keyframes qb-tick { from { transform: scale(1.18); color: #fff2c4; } to { transform: scale(1); } }
+    .qb-cta {
+      font-family: 'Geist', sans-serif; font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
+      color: var(--bg); background: var(--gold); border-radius: 4px; padding: 7px 14px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .qb-cta:hover { background: #d4b55a; transform: translateY(-1px); }
+    @media (prefers-reduced-motion: reduce) {
+      .qb::after, .qb-dot::after, .qb-clock .tick { animation: none; }
+    }
+
+    html.qb-on { scroll-padding-top: var(--qb-h, 0px); }
+    html.qb-on body { padding-top: var(--qb-h, 0px); }
+    html.qb-on .hero { min-height: calc(100vh - var(--qb-h, 0px)); }
   </style>
 </head>
 <body>
+  <div class="qb" id="qb" role="region" aria-label="Quiz deadline">
+    <span class="qb-tag"><span class="qb-dot" aria-hidden="true"></span>Quiz due</span>
+    <span class="qb-when">Friday, October 9 at 11:59 PM ET</span>
+    <span class="qb-clock" aria-hidden="true">
+      <span><span id="qb-d">0</span><small>d</small></span>
+      <span><span id="qb-h">00</span><small>h</small></span>
+      <span><span id="qb-m">00</span><small>m</small></span>
+      <span><span id="qb-s">00</span><small>s</small></span>
+    </span>
+    <a href="quiz/" class="qb-cta">Take the quiz</a>
+  </div>
+  <script>
+    /* quiz deadline banner: counts down, hides itself once the quiz is due */
+    (function () {
+      const due = new Date('2026-10-09T23:59:00-04:00').getTime();
+      const bar = document.getElementById('qb');
+      const root = document.documentElement;
+      const el = id => document.getElementById(id);
+      const pad = n => String(n).padStart(2, '0');
+      function fit() { root.style.setProperty('--qb-h', bar.offsetHeight + 'px'); }
+      function tick() {
+        const left = due - Date.now();
+        if (left <= 0) {
+          bar.hidden = true; root.classList.remove('qb-on');
+          clearInterval(timer); removeEventListener('resize', fit);
+          return;
+        }
+        el('qb-d').textContent = Math.floor(left / 864e5);
+        el('qb-h').textContent = pad(Math.floor(left % 864e5 / 36e5));
+        el('qb-m').textContent = pad(Math.floor(left % 36e5 / 6e4));
+        const s = el('qb-s');
+        s.textContent = pad(Math.floor(left % 6e4 / 1e3));
+        s.classList.remove('tick'); void s.offsetWidth; s.classList.add('tick');
+      }
+      root.classList.add('qb-on');
+      const timer = setInterval(tick, 1000);
+      tick(); fit();
+      addEventListener('resize', fit);
+      if (document.fonts) document.fonts.ready.then(fit);
+    })();
+  </script>
+
 
   <div class="glow"></div>
   <div class="leaves" id="leaves"></div>
